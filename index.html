@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masu Technologies · Games & Apps on Play Store</title>
+
+  <!-- Bootstrap 5 CSS + Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+    /* ---------- GLOBAL ---------- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: #f8faff;
+      color: #1e1e2f;
+      overflow-x: hidden;
+    }
+
+    /* ---------- BRAND / UTILITIES ---------- */
+    .bg-masu-gradient {
+      background: linear-gradient(135deg, #0b0b1a 0%, #1d1d3b 100%);
+    }
+    .text-masu-accent { color: #8b5cf6; }
+    .section-gap { padding: 5rem 0; }
+    @media (max-width: 768px) { .section-gap { padding: 3rem 0; } }
+
+    .btn-masu {
+      background: linear-gradient(105deg, #8b5cf6 0%, #6d28d9 100%);
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      padding: 0.8rem 2.2rem;
+      border-radius: 50px;
+      transition: all 0.25s ease;
+      box-shadow: 0 12px 24px -8px rgba(139, 92, 246, 0.45);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-masu:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 28px -8px rgba(139, 92, 246, 0.6);
+      background: linear-gradient(105deg, #7c3aed 0%, #5b21b6 100%);
+      color: #fff;
+    }
+    .btn-outline-masu {
+      border: 2px solid #8b5cf6;
+      color: #8b5cf6;
+      font-weight: 600;
+      padding: 0.7rem 2rem;
+      border-radius: 50px;
+      transition: all 0.2s;
+      background: transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-outline-masu:hover {
+      background: #8b5cf6;
+      color: #fff;
+      border-color: #8b5cf6;
+    }
+
+    /* ---------- ICON ANIMATIONS ---------- */
+    .icon-pulse { transition: transform 0.3s ease, filter 0.3s ease; }
+    .icon-pulse:hover {
+      transform: scale(1.2) rotate(2deg);
+      filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.7));
+    }
+    .icon-float { animation: floatIcon 3s ease-in-out infinite; }
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .icon-spin-slow { transition: transform 0.6s ease; }
+    .icon-spin-slow:hover { transform: rotate(15deg) scale(1.15); }
+
+    /* ---------- CARDS ---------- */
+    .game-card {
+      background: #fff;
+      border-radius: 28px;
+      padding: 1.8rem 1.2rem;
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1);
+      border: 1px solid rgba(139, 92, 246, 0.1);
+      box-shadow: 0 18px 36px -12px rgba(0, 0, 0, 0.08);
+      height: 100%;
+    }
+    .game-card:hover {
+      transform: translateY(-10px);
+      border-color: #c4b5fd;
+      box-shadow: 0 28px 44px -12px rgba(139, 92, 246, 0.25);
+    }
+    .game-card i {
+      font-size: 2.8rem;
+      color: #8b5cf6;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .badge-playstore {
+      background: #0f0f1e;
+      color: #fff;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge-playstore i { font-size: 1rem; margin: 0; color: #34a853; }
+
+    /* ---------- HERO DECORATION ---------- */
+    .hero-section {
+      position: relative;
+      overflow: hidden;
+      border-radius: 0 0 60px 60px;
+    }
+    .hero-section .container { position: relative; z-index: 3; }
+    .blob {
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.25;
+      background: #8b5cf6;
+      top: -100px; right: -80px;
+      z-index: 1;
+    }
+    .blob-2 {
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.2;
+      background: #3b82f6;
+      bottom: -80px; left: -60px;
+      z-index: 1;
+    }
+
+    /* ---------- FOOTER ---------- */
+    .footer-link { color: #a0a0c0; text-decoration: none; transition: color 0.2s; }
+    .footer-link:hover { color: #8b5cf6; }
+
+    /* ---------- PLAYSTORE GLOW ---------- */
+    @keyframes softGlow {
+      0%   { box-shadow: 0 0 5px rgba(52, 168, 83, 0.4); }
+      50%  { box-shadow: 0 0 15px rgba(52, 168, 83, 0.8); }
+      100% { box-shadow: 0 0 5px rgba(52, 168, 83, 0.4); }
+    }
+    .playstore-glow { animation: softGlow 2.5s infinite; }
+
+    /* ---------- NAV ACTIVE STATE ---------- */
+    .navbar-nav .nav-link.active { color: #8b5cf6 !important; font-weight: 700; }
+
+    /* ---------- PAGE SECTIONS (single page) ---------- */
+    .page-section { min-height: 70vh; }
+
+    /* ---------- CONTACT FORM ---------- */
+    .form-control:focus {
+      border-color: #8b5cf6;
+      box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
+    }
+
+    /* ---------- MISC ---------- */
+    .display-3 { font-weight: 800; }
+    @media (max-width: 768px) { .display-3 { font-size: 2.5rem; } }
+    .min-vh-75 { min-height: 75vh; }
+  </style>
+</head>
+
+<body>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="navbar navbar-expand-lg bg-white shadow-sm py-3 sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="#home">
+      <i class="bi bi-controller fs-2 text-masu-accent icon-spin-slow"></i>
+      <span class="fw-bold fs-3" style="color: #1e1e2f;">Masu<span class="text-masu-accent">Tech</span></span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-2 align-items-lg-center">
+        <li class="nav-item"><a class="nav-link fw-semibold" href="#home" data-page="home">Home</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold" href="#games" data-page="games">Games</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold" href="#apps" data-page="apps">Apps</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold" href="#about" data-page="about">About</a></li>
+        <li class="nav-item"><a class="nav-link fw-semibold" href="#contact" data-page="contact">Contact</a></li>
+        <li class="nav-item ms-lg-3">
+          <a class="btn btn-masu px-4 py-2" href="https://play.google.com" target="_blank" rel="noopener">
+            <i class="bi bi-google-play me-2"></i>Play Store
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================ -->
+<!-- ==================== HOME / HERO =========================== -->
+<!-- ============================================================ -->
+<section class="hero-section bg-masu-gradient text-white position-relative" id="home">
+  <div class="blob"></div>
+  <div class="blob-2"></div>
+  <div class="container py-5 py-lg-6">
+    <div class="row align-items-center min-vh-75 py-5">
+      <div class="col-lg-7">
+        <div class="badge-playstore playstore-glow mb-4">
+          <i class="bi bi-google-play"></i> Available on Play Store
+        </div>
+        <h1 class="display-3 fw-bold mb-4" style="line-height: 1.2;">
+          We craft <span class="text-masu-accent">games & apps</span> that engage.
+        </h1>
+        <p class="fs-4 text-white-50 mb-5" style="max-width: 600px;">
+          Masu Technologies builds immersive mobile experiences — from casual games to utility apps.
+          Trusted by players &amp; users worldwide.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="#games" class="btn btn-masu btn-lg px-5">Explore games <i class="bi bi-arrow-right ms-2"></i></a>
+          <a href="#apps" class="btn btn-outline-light btn-lg px-4 rounded-pill fw-semibold" style="border-width: 2px;">Our apps</a>
+        </div>
+        <div class="d-flex flex-wrap gap-4 mt-5 pt-3">
+          <div><i class="bi bi-star-fill text-warning me-1"></i> 4.8+ rating</div>
+          <div><i class="bi bi-download text-white-50 me-1"></i> 1M+ downloads</div>
+          <div><i class="bi bi-people-fill text-white-50 me-1"></i> 500k+ players</div>
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-flex justify-content-center">
+        <div class="position-relative" style="width: 300px; height: 300px;">
+          <i class="bi bi-phone position-absolute icon-float" style="font-size: 5rem; top: 0; left: 0; opacity: 0.9;"></i>
+          <i class="bi bi-controller position-absolute icon-float" style="font-size: 4rem; bottom: 20px; right: 10px; animation-delay: 0.6s; color: #c4b5fd;"></i>
+          <i class="bi bi-google-play position-absolute icon-float" style="font-size: 3.5rem; top: 40px; right: 30px; animation-delay: 1.2s; color: #a78bfa;"></i>
+          <i class="bi bi-joystick position-absolute icon-float" style="font-size: 3rem; bottom: 0; left: 40px; animation-delay: 0.3s; color: #ddd6fe;"></i>
+          <i class="bi bi-puzzle position-absolute icon-float" style="font-size: 2.5rem; top: 100px; left: 80px; animation-delay: 0.9s; color: #7c3aed;"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="height: 40px; background: #f8faff; border-radius: 100% 100% 0 0 / 100% 100% 0 0;"></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ==================== GAMES PAGE ============================ -->
+<!-- ============================================================ -->
+<section class="section-gap page-section" id="games">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="display-5 fw-bold">🎮 Our <span class="text-masu-accent">games</span></h2>
+      <p class="fs-5 text-secondary col-lg-7 mx-auto">
+        Action, puzzles, and casual titles — all published on Google Play.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Game 1 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="game-card text-center">
+          <i class="bi bi-joystick icon-pulse"></i>
+          <h3 class="h4 fw-bold">Sky Dash</h3>
+          <p class="text-secondary">Endless runner with stunning visuals. 4.7 ★</p>
+          <div class="badge-playstore mt-2"><i class="bi bi-google-play"></i> Play Store</div>
+          <div class="mt-3"><i class="bi bi-download me-1 text-masu-accent"></i> 500k+</div>
+        </div>
+      </div>
+
+      <!-- Game 2 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="game-card text-center">
+          <i class="bi bi-puzzle icon-pulse" style="animation-delay: 0.2s;"></i>
+          <h3 class="h4 fw-bold">Puzzle Nova</h3>
+          <p class="text-secondary">Brain teasers &amp; logic puzzles. 4.8 ★</p>
+          <div class="badge-playstore mt-2"><i class="bi bi-google-play"></i> Play Store</div>
+          <div class="mt-3"><i class="bi bi-download me-1 text-masu-accent"></i> 300k+</div>
+        </div>
+      </div>
+
+      <!-- Game 3 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="game-card text-center">
+          <i class="bi bi-dice-6 icon-pulse" style="animation-delay: 0.4s;"></i>
+          <h3 class="h4 fw-bold">Ludo Empire</h3>
+          <p class="text-secondary">Classic board game, online multiplayer. 4.6 ★</p>
+          <div class="badge-playstore mt-2"><i class="bi bi-google-play"></i> Play Store</div>
+          <div class="mt-3"><i class="bi bi-download me-1 text-masu-accent"></i> 1M+</div>
+        </div>
+      </div>
+
+      <!-- Game 4 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="game-card text-center">
+          <i class="bi bi-rocket-takeoff icon-pulse" style="animation-delay: 0.1s;"></i>
+          <h3 class="h4 fw-bold">Galaxy Raiders</h3>
+          <p class="text-secondary">Space shooter with epic bosses. 4.5 ★</p>
+          <div class="badge-playstore mt-2"><i class="bi bi-google-play"></i> Play Store</div>
+          <div class="mt-3"><i class="bi bi-download me-1 text-masu-accent"></i> 250k+</div>
+        </div>
+      </div>
+
+      <!-- Game 5 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="game-card text-center">
+          <i class="bi bi-trophy icon-pulse" style="animation-delay: 0.3s;"></i>
+          <h3 class="h4 fw-bold">Word Champions</h3>
+          <p class="text-secondary">Compete in real-time word battles. 4.9 ★</p>
+          <div class="badge-playstore mt-2"><i class="bi bi-google-play"></i> Play Store</div>
+          <div class="mt-3"><i class="bi bi-download me-1 text-masu-accent"></i> 800k+</div>
+        </div>
+      </div>
+
+      <!-- Game 6 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="game-card text-center">
+          <i class="bi bi-car-front-fill icon-pulse" style="animation-delay: 0.5s;"></i>
+          <h3 class="h4 fw-bold">Turbo Racer</h3>
+          <p class="text-secondary">High-speed racing with stunning tracks. 4.6 ★</p>
+          <div class="badge-playstore mt-2"><i class="bi bi-google-play"></i> Play Store</div>
+          <div class="mt-3"><i class="bi bi-download me-1 text-masu-accent"></i> 600k+</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="https://play.google.com" target="_blank" rel="noopener" class="btn btn-outline-masu px-5">
+        <i class="bi bi-google-play me-2"></i> See all games on Play Store
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ==================== APPS PAGE ============================= -->
+<!-- ============================================================ -->
+<section class="section-gap bg-white page-section" id="apps">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="display-5 fw-bold">📱 Our <span class="text-masu-accent">apps</span></h2>
+      <p class="fs-5 text-secondary col-lg-7 mx-auto">
+        Utility &amp; productivity apps designed for daily use.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <!-- App 1 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="game-card text-center">
+          <i class="bi bi-calculator icon-pulse"></i>
+          <h3 class="h4 fw-bold">CalcMate</h3>
+          <p class="text-secondary">Smart calculator with history &amp; themes. 4.9 ★</p>
+          <div class="badge-playstore mt-2"><i class="bi bi-google-play"></i> Play Store</div>
+        </div>
+      </div>
+
+      <!-- App 2 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="game-card text-center">
+          <i class="bi bi-cloud-sun icon-pulse" style="animation-delay: 0.2s;"></i>
+          <h3 class="h4 fw-bold">WeatherNow</h3>
+          <p class="text-secondary">Hyperlocal forecast &amp; alerts. 4.7 ★</p>
+          <div class="badge-playstore mt-2"><i class="bi bi-google-play"></i> Play Store</div>
+        </div>
+      </div>
+
+      <!-- App 3 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="game-card text-center">
+          <i class="bi bi-shield-lock icon-pulse" style="animation-delay: 0.4s;"></i>
+          <h3 class="h4 fw-bold">VaultGuard</h3>
+          <p class="text-secondary">Secure password manager. 4.8 ★</p>
+          <div class="badge-playstore mt-2"><i class="bi bi-google-play"></i> Play Store</div>
+        </div>
+      </div>
+
+      <!-- App 4 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="game-card text-center">
+          <i class="bi bi-journal-check icon-pulse" style="animation-delay: 0.1s;"></i>
+          <h3 class="h4 fw-bold">TaskFlow</h3>
+          <p class="text-secondary">Minimalist task manager &amp; planner. 4.7 ★</p>
+          <div class="badge-playstore mt-2"><i class="bi bi-google-play"></i> Play Store</div>
+        </div>
+      </div>
+
+      <!-- App 5 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="game-card text-center">
+          <i class="bi bi-camera-fill icon-pulse" style="animation-delay: 0.3s;"></i>
+          <h3 class="h4 fw-bold">PixelSnap</h3>
+          <p class="text-secondary">Photo editor with AI filters. 4.6 ★</p>
+          <div class="badge-playstore mt-2"><i class="bi bi-google-play"></i> Play Store</div>
+        </div>
+      </div>
+
+      <!-- App 6 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="game-card text-center">
+          <i class="bi bi-music-note-beamed icon-pulse" style="animation-delay: 0.5s;"></i>
+          <h3 class="h4 fw-bold">BeatWave</h3>
+          <p class="text-secondary">Offline music player with equalizer. 4.8 ★</p>
+          <div class="badge-playstore mt-2"><i class="bi bi-google-play"></i> Play Store</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="https://play.google.com" target="_blank" rel="noopener" class="btn btn-outline-masu px-5">
+        <i class="bi bi-google-play me-2"></i> See all apps on Play Store
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ==================== ABOUT PAGE ============================ -->
+<!-- ============================================================ -->
+<section class="section-gap page-section" id="about">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <h2 class="display-6 fw-bold mb-4">Why <span class="text-masu-accent">Masu</span>?</h2>
+        <p class="fs-5 text-secondary mb-4">
+          We are a passionate team of developers and designers focused on delivering high-quality
+          mobile experiences on the Play Store.
+        </p>
+
+        <div class="d-flex gap-3 mb-4 align-items-start">
+          <i class="bi bi-check-circle-fill fs-3 text-masu-accent"></i>
+          <div>
+            <h5 class="fw-bold">100% Play Store compliant</h5>
+            <p class="text-secondary mb-0">All our games and apps meet Google Play policies.</p>
+          </div>
+        </div>
+
+        <div class="d-flex gap-3 mb-4 align-items-start">
+          <i class="bi bi-lightning-charge-fill fs-3 text-masu-accent"></i>
+          <div>
+            <h5 class="fw-bold">Fast &amp; frequent updates</h5>
+            <p class="text-secondary mb-0">We listen to user feedback and improve constantly.</p>
+          </div>
+        </div>
+
+        <div class="d-flex gap-3 mb-4 align-items-start">
+          <i class="bi bi-heart-fill fs-3 text-masu-accent"></i>
+          <div>
+            <h5 class="fw-bold">User-first design</h5>
+            <p class="text-secondary mb-0">Intuitive interfaces and smooth performance.</p>
+          </div>
+        </div>
+
+        <div class="d-flex gap-3 mb-4 align-items-start">
+          <i class="bi bi-people-fill fs-3 text-masu-accent"></i>
+          <div>
+            <h5 class="fw-bold">Community driven</h5>
+            <p class="text-secondary mb-0">Active player base shaping our roadmap.</p>
+          </div>
+        </div>
+
+        <a href="#contact" class="btn btn-masu mt-3 px-4">
+          Work with us <i class="bi bi-arrow-up-right ms-1"></i>
+        </a>
+      </div>
+
+      <div class="col-lg-6 text-center">
+        <div class="p-5 bg-white rounded-5 shadow-lg">
+          <div class="row g-4">
+            <div class="col-6">
+              <i class="bi bi-google-play fs-1 text-masu-accent icon-float"></i>
+              <h4 class="fw-bold mt-2">20+</h4>
+              <p class="text-secondary mb-0">Apps &amp; games on Play Store</p>
+            </div>
+            <div class="col-6">
+              <i class="bi bi-download fs-1 text-masu-accent icon-float" style="animation-delay: 0.3s;"></i>
+              <h4 class="fw-bold mt-2">1.5M+</h4>
+              <p class="text-secondary mb-0">Total downloads</p>
+            </div>
+            <div class="col-6">
+              <i class="bi bi-star-fill fs-1 text-masu-accent icon-float" style="animation-delay: 0.6s;"></i>
+              <h4 class="fw-bold mt-2">4.8★</h4>
+              <p class="text-secondary mb-0">Average rating</p>
+            </div>
+            <div class="col-6">
+              <i class="bi bi-people-fill fs-1 text-masu-accent icon-float" style="animation-delay: 0.9s;"></i>
+              <h4 class="fw-bold mt-2">500k+</h4>
+              <p class="text-secondary mb-0">Active users</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ==================== CONTACT PAGE ========================== -->
+<!-- ============================================================ -->
+<section class="section-gap bg-masu-gradient text-white page-section" id="contact">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <!-- Left side – contact info -->
+      <div class="col-lg-5">
+        <h2 class="display-5 fw-bold mb-3">Let's talk</h2>
+        <p class="fs-5 text-white-50 mb-5">
+          Have a game idea or need an app? We’d love to hear from you.
+        </p>
+
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <i class="bi bi-envelope-fill fs-3 text-masu-accent"></i>
+          <div>
+            <h6 class="fw-bold mb-0">Email</h6>
+            <a href="mailto:hello@masutech.com" class="text-white-50 text-decoration-none">hello@masutech.com</a>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <i class="bi bi-geo-alt-fill fs-3 text-masu-accent"></i>
+          <div>
+            <h6 class="fw-bold mb-0">Location</h6>
+            <span class="text-white-50">Bengaluru, India</span>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-3 mb-5">
+          <i class="bi bi-google-play fs-3 text-masu-accent"></i>
+          <div>
+            <h6 class="fw-bold mb-0">Play Store</h6>
+            <a href="https://play.google.com" target="_blank" rel="noopener" class="text-white-50 text-decoration-none">
+              Masu Technologies
+            </a>
+          </div>
+        </div>
+
+        <div class="d-flex gap-4 fs-3">
+          <a href="#" class="text-white-50" aria-label="Twitter"><i class="bi bi-twitter-x icon-pulse"></i></a>
+          <a href="#" class="text-white-50" aria-label="Instagram"><i class="bi bi-instagram icon-pulse"></i></a>
+          <a href="#" class="text-white-50" aria-label="LinkedIn"><i class="bi bi-linkedin icon-pulse"></i></a>
+          <a href="#" class="text-white-50" aria-label="GitHub"><i class="bi bi-github icon-pulse"></i></a>
+        </div>
+      </div>
+
+      <!-- Right side – contact form -->
+      <div class="col-lg-7">
+        <div class="bg-white rounded-5 p-4 p-md-5 shadow-lg">
+          <h3 class="h4 fw-bold text-dark mb-4">Send a message</h3>
+          <form id="contactForm" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="nameInput" class="form-label text-dark fw-semibold">Your name</label>
+                <input type="text" class="form-control py-2" id="nameInput" placeholder="John Doe" required>
+              </div>
+              <div class="col-md-6">
+                <label for="emailInput" class="form-label text-dark fw-semibold">Email address</label>
+                <input type="email" class="form-control py-2" id="emailInput" placeholder="john@example.com" required>
+              </div>
+              <div class="col-12">
+                <label for="subjectInput" class="form-label text-dark fw-semibold">Subject</label>
+                <input type="text" class="form-control py-2" id="subjectInput" placeholder="Game idea / app project" required>
+              </div>
+              <div class="col-12">
+                <label for="messageInput" class="form-label text-dark fw-semibold">Message</label>
+                <textarea class="form-control" id="messageInput" rows="4" placeholder="Tell us about your project..." required></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-masu w-100 py-3">
+                  <i class="bi bi-send-fill me-2"></i> Send message
+                </button>
+              </div>
+              <div class="col-12">
+                <div id="formFeedback" class="text-center small mt-2" style="min-height: 20px;"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ==================== FOOTER ================================ -->
+<!-- ============================================================ -->
+<footer class="bg-white py-4">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+        <span class="fw-bold fs-5">Masu<span class="text-masu-accent">Tech</span></span>
+        <span class="text-secondary ms-2">© 2025 Masu Technologies. All rights reserved.</span>
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <a href="#" class="footer-link mx-2">Privacy</a>
+        <a href="#" class="footer-link mx-2">Terms</a>
+        <a href="#" class="footer-link mx-2">Support</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================ -->
+<!-- ==================== SCRIPTS =============================== -->
+<!-- ============================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  (function () {
+    'use strict';
+
+    /* ---------- 1. ICON HOVER ENHANCEMENT ON BUTTONS ---------- */
+    document.querySelectorAll('.btn').forEach(function (btn) {
+      btn.addEventListener('mouseenter', function () {
+        var icon = this.querySelector('i');
+        if (icon) {
+          icon.style.transition = 'transform 0.2s ease';
+          icon.style.transform = 'scale(1.2) rotate(3deg)';
+        }
+      });
+      btn.addEventListener('mouseleave', function () {
+        var icon = this.querySelector('i');
+        if (icon) {
+          icon.style.transform = 'scale(1) rotate(0deg)';
+        }
+      });
+    });
+
+    /* ---------- 2. ACTIVE NAV LINK ON SCROLL (SPY) ---------- */
+    var sections = document.querySelectorAll('section[id]');
+    var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+
+    function setActiveLink() {
+      var scrollPos = window.scrollY + 120; // offset for sticky navbar
+
+      sections.forEach(function (section) {
+        var top = section.offsetTop;
+        var bottom = top + section.offsetHeight;
+        var id = section.getAttribute('id');
+        var link = document.querySelector('.navbar-nav .nav-link[href="#' + id + '"]');
+
+        if (link) {
+          if (scrollPos >= top && scrollPos < bottom) {
+            navLinks.forEach(function (l) { l.classList.remove('active'); });
+            link.classList.add('active');
+          }
+        }
+      });
+    }
+
+    window.addEventListener('scroll', setActiveLink);
+    window.addEventListener('load', setActiveLink);
+
+    /* ---------- 3. SMOOTH SCROLL FOR NAV LINKS (prevent jump) ---------- */
+    navLinks.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        var href = this.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          var target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            var offset = 80; // navbar height
+            var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({ top: top, behavior: 'smooth' });
+          }
+        }
+      });
+    });
+
+    /* ---------- 4. CONTACT FORM VALIDATION + FEEDBACK ---------- */
+    var contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        var name = document.getElementById('nameInput');
+        var email = document.getElementById('emailInput');
+        var subject = document.getElementById('subjectInput');
+        var message = document.getElementById('messageInput');
+        var feedback = document.getElementById('formFeedback');
+        var isValid = true;
+
+        // Reset styles
+        [name, email, subject, message].forEach(function (field) {
+          field.classList.remove('is-invalid');
+        });
+        feedback.innerHTML = '';
+
+        // Validate name
+        if (!name.value.trim()) {
+          name.classList.add('is-invalid');
+          isValid = false;
+        }
+
+        // Validate email (simple regex)
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.value.trim() || !emailRegex.test(email.value.trim())) {
+          email.classList.add('is-invalid');
+          isValid = false;
+        }
+
+        // Validate subject
+        if (!subject.value.trim()) {
+          subject.classList.add('is-invalid');
+          isValid = false;
+        }
+
+        // Validate message
+        if (!message.value.trim()) {
+          message.classList.add('is-invalid');
+          isValid = false;
+        }
+
+        if (!isValid) {
+          feedback.innerHTML = '<span class="text-danger fw-semibold">Please fill all fields correctly.</span>';
+          return;
+        }
+
+        // Simulate successful submission
+        feedback.innerHTML = '<span class="text-success fw-semibold">✓ Message sent! We’ll get back to you soon.</span>';
+
+        // Reset form
+        contactForm.reset();
+        [name, email, subject, message].forEach(function (field) {
+          field.classList.remove('is-invalid');
+        });
+
+        // Clear feedback after 5 seconds
+        setTimeout(function () {
+          feedback.innerHTML = '';
+        }, 5000);
+      });
+    }
+
+    /* ---------- 5. LOG ---------- */
+    console.log('Masu Technologies — all pages loaded in one file ✨');
+  })();
+</script>
+
+</body>
+</html>
